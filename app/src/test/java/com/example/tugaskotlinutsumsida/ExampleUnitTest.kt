@@ -1,4 +1,4 @@
-package com.example.tugaskotlinutsumsida
+package com.example.tugasuts
 
 import org.junit.Test
 
