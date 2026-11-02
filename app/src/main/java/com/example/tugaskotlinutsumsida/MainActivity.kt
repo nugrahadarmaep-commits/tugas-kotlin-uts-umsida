@@ -92,13 +92,16 @@ enum class Screen { REGISTRATION, DASHBOARD, SETTINGS }
 
 // Warna Kustom Tema Modern Abu-Abu & Dark Slate
 val ModernDarkSlate = Color(0xFF1F2937)
+//val ModernDarkSlate = Color(0xFF0D47A1) //sample ujicoba saya pakai biru tua
 val MaroonUmsida = ModernDarkSlate
 val BackgroundGray = Color(0xFFF8FAFC)
 
 @Composable
 fun PortalUmsidaApp() {
-    var currentScreen by remember { mutableStateOf(Screen.REGISTRATION) }
-    var loggedInName by remember { mutableStateOf("") }
+    //var currentScreen by remember { mutableStateOf(Screen.REGISTRATION) } // kalo gapake rememberSaveable biar ga reset saat rotasi layar
+    //var loggedInName by remember { mutableStateOf("") }
+    var currentScreen by rememberSaveable { mutableStateOf(Screen.REGISTRATION) }
+    var loggedInName by rememberSaveable { mutableStateOf("") }
 
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         when (currentScreen) {
@@ -358,9 +361,10 @@ fun RegistrationScreen(onLoginSuccess: (String) -> Unit = {}) {
 // ==========================================
 @Composable
 fun DashboardScreen(studentName: String, onNavigateSettings: () -> Unit, onLogout: () -> Unit) {
-    var showSchedule by remember { mutableStateOf(false) }
-    var activityCount by remember { mutableIntStateOf(0) }
-
+    var showSchedule by rememberSaveable { mutableStateOf(false) }
+    //var showSchedule = false
+    var activityCount by rememberSaveable { mutableIntStateOf(0) }
+    //var activityCount by remember { mutableIntStateOf(0)}
     Column(modifier = Modifier.fillMaxSize().background(BackgroundGray).verticalScroll(rememberScrollState())) {
 
         Box(modifier = Modifier.fillMaxWidth().background(MaroonUmsida).padding(24.dp)) {
@@ -422,6 +426,14 @@ fun DashboardScreen(studentName: String, onNavigateSettings: () -> Unit, onLogou
                     }
                 }
             }
+            //Column(
+            //    modifier = Modifier.fillMaxWidth(),
+            //    verticalArrangement = Arrangement.spacedBy(8.dp)
+            //) {
+            //    SummaryCard("SKS Lulus", "84", Modifier.fillMaxWidth())
+            //    SummaryCard("IPK", "3.75", Modifier.fillMaxWidth())
+            //    SummaryCard("Tugas Aktif", "5", Modifier.fillMaxWidth())
+            //}
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -500,7 +512,7 @@ fun SummaryCard(title: String, value: String, modifier: Modifier = Modifier) {
 // ==========================================
 @Composable
 fun SettingsScreen(onBack: () -> Unit) {
-    var isNotifEnabled by remember { mutableStateOf(true) }
+    var isNotifEnabled by rememberSaveable { mutableStateOf(true) }
 
     Column(modifier = Modifier.fillMaxSize().background(BackgroundGray).padding(24.dp)) {
         Text("Pengaturan", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = MaroonUmsida)
